@@ -31,6 +31,9 @@
     </item>
     <item row="1" column="1">
      <widget class="QPushButton" name="pushButton_3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Do one step</string>
       </property>
@@ -38,6 +41,9 @@
     </item>
     <item row="2" column="1">
      <widget class="QPushButton" name="pushButton_4">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Do one run</string>
       </property>
@@ -45,6 +51,9 @@
     </item>
     <item row="3" column="1">
      <widget class="QPushButton" name="pushButton_5">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Next run</string>
       </property>
@@ -52,6 +61,9 @@
     </item>
     <item row="4" column="1">
      <widget class="QPushButton" name="pushButton_6">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Do all runs</string>
       </property>
@@ -122,6 +134,9 @@
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_7">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>

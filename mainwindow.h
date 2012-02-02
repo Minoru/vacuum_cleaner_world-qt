@@ -26,6 +26,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
 
+    void DrawMap();
+
     QString fileName;       //.map file
     int lifeTime;
     int testCase;

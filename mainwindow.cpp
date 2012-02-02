@@ -38,4 +38,17 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
     fileName = filename;
     lifeTime = lifetime;
     testCase = testcase;
+
+    DrawMap();
+}
+
+void MainWindow::DrawMap()
+{
+    //TODO: draw a map if it is correctly loaded
+
+    ui->pushButton_3->setEnabled(true);
+    ui->pushButton_4->setEnabled(true);
+    ui->pushButton_5->setEnabled(true);
+    ui->pushButton_6->setEnabled(true);
+    ui->pushButton_7->setEnabled(true);
 }
