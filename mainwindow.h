@@ -16,9 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_8_clicked();
+    void on_quitButton_clicked();
 
-    void on_pushButton_clicked();
+    void on_selectMapButton_clicked();
 
 public slots:
     void onNewMapData(QString filename, int lifetime, int testcase);

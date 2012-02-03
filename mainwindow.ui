@@ -23,14 +23,14 @@
      <widget class="QGraphicsView" name="graphicsView"/>
     </item>
     <item row="0" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="selectMapButton">
       <property name="text">
        <string>Select map</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="doOneStepButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -40,7 +40,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="doOneRunButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -50,7 +50,7 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="nextRunButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -60,7 +60,7 @@
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="doAllRunsButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -70,7 +70,7 @@
      </widget>
     </item>
     <item row="7" column="1">
-     <widget class="QPushButton" name="pushButton_8">
+     <widget class="QPushButton" name="quitButton">
       <property name="text">
        <string>Quit</string>
       </property>
@@ -81,7 +81,7 @@
       <property name="title">
        <string>Display options</string>
       </property>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="stepsEdit">
        <property name="geometry">
         <rect>
          <x>60</x>
@@ -94,7 +94,7 @@
         <string>100</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="stepsLabel">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -107,7 +107,7 @@
         <string>Steps:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="timeEdit">
        <property name="geometry">
         <rect>
          <x>60</x>
@@ -120,7 +120,7 @@
         <string>10</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="timeLabel">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -133,7 +133,7 @@
         <string>Time:</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="displayButton">
        <property name="enabled">
         <bool>false</bool>
        </property>

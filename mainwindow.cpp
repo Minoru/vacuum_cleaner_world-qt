@@ -16,13 +16,13 @@ MainWindow::~MainWindow()
 }
 
 //Quit
-void MainWindow::on_pushButton_8_clicked()
+void MainWindow::on_quitButton_clicked()
 {
     this->close();
 }
 
 //Select map
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_selectMapButton_clicked()
 {
     FormNewMap* form = new FormNewMap(0);
 
@@ -46,9 +46,9 @@ void MainWindow::DrawMap()
 {
     //TODO: draw a map if it is correctly loaded
 
-    ui->pushButton_3->setEnabled(true);
-    ui->pushButton_4->setEnabled(true);
-    ui->pushButton_5->setEnabled(true);
-    ui->pushButton_6->setEnabled(true);
-    ui->pushButton_7->setEnabled(true);
+    ui->doOneStepButton->setEnabled(true);
+    ui->doOneRunButton->setEnabled(true);
+    ui->doAllRunsButton->setEnabled(true);
+    ui->nextRunButton->setEnabled(true);
+    ui->displayButton->setEnabled(true);
 }

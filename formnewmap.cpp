@@ -16,18 +16,18 @@ FormNewMap::~FormNewMap()
 }
 
 //invokes "select file" dialog
-void FormNewMap::on_toolButton_clicked()
+void FormNewMap::on_selectMapFileButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select map file"), "map", tr("Map files (*.map)"));
-    ui->lineEdit_3->setText(fileName);
+    ui->mapFilenameEdit->setText(fileName);
 }
 
 //OK
-void FormNewMap::on_pushButton_clicked()
+void FormNewMap::on_okButton_clicked()
 {
-    int lifeTime = ui->lineEdit->text().toInt();
-    int testCase = ui->lineEdit_2->text().toInt();
-    QString fileName = ui->lineEdit_3->text();
+    int lifeTime = ui->lifetimeEdit->text().toInt();
+    int testCase = ui->testCaseEdit->text().toInt();
+    QString fileName = ui->mapFilenameEdit->text();
 
     if (lifeTime > 0 && testCase > 0 && QFile::exists(fileName))
     {
@@ -39,7 +39,7 @@ void FormNewMap::on_pushButton_clicked()
 }
 
 //Cancel => close window
-void FormNewMap::on_pushButton_2_clicked()
+void FormNewMap::on_cancelButton_clicked()
 {
     this->close();
 }
