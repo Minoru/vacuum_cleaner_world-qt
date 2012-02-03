@@ -1,0 +1,15 @@
+# ignore object files and resulting binary
+*.o
+Agent
+
+# QtCreator-specific files
+Agent.pro.user
+Makefile
+
+# files created by Qt at the compilation stage
+moc_*.cpp
+ui_*.h
+
+# vim-specific files
+*.swp
+*.un~
