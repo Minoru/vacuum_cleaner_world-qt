@@ -4,7 +4,6 @@ Agent
 
 # QtCreator-specific files
 Agent.pro.user
-Makefile
 
 # files created by Qt at the compilation stage
 moc_*.cpp
