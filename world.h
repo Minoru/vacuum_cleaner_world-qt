@@ -31,6 +31,10 @@ public:
     int dirtAmount();
     /* returns true if agent just bumped into the wall */
     bool isJustBumped();
+    
+    void doOneStep();
+
+    void resetMap();
 
     QString getErrorMessage()
     {
@@ -52,6 +56,10 @@ public:
         return world_height;
     }
 
+    int getCurrentTime() {
+        return currentTime;
+    }
+
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
      * allows us to write quite intuitive code (e.g. world[x]->at(y)). Note,
@@ -63,10 +71,16 @@ private:
     int world_width, world_height;
     /* agent's current position */
     int agentPosX, agentPosY;
+    /* we need to store iniail position to reset the map before each run */
+    int initialAgentPosX, initialAgentPosY;
     /* true if agent just bumped into the wall */
     bool justBumped;
     /* probability of cell's dirty level increasing by one */
     float dirtyProbability;
+    /* agent is an entity that would perform some actions on our world */
+    Agent agent;
+
+    int currentTime;
 
     /* how obstacles are indicated at map */
     static const int OBSTACLE = -1;

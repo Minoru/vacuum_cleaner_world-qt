@@ -6,6 +6,8 @@ World::World(string filename) {
     /* world doesn't even exist yet, so agent couldn't possibly bump into
      * something */
     justBumped = false;
+    /* ...and of course time doesn't tick yet */
+    currentTime = 0;
 
     /* read map file and initialise world */
     string line;
@@ -42,6 +44,8 @@ World::World(string filename) {
 
         return;
     };
+    initialAgentPosX = agentPosX;
+    initialAgentPosY = agentPosY;
     unsigned int seed;
     try {
         parameters >> seed;
@@ -189,6 +193,9 @@ void World::performAction(Agent::actions action) {
                     static_cast<float>(rand()/RAND_MAX) < dirtyProbability) {
                 world[col]->at(row)++;
             }
+
+    /* Yet another corn in the sandglass... */
+    currentTime++;
 }
 
 bool World::isCurrentPosDirty() {
@@ -202,3 +209,20 @@ int World::dirtAmount() {
 bool World::isJustBumped() {
     return justBumped;
 }
+
+void World::doOneStep() {
+    agent.act(this);
+}
+
+void World::resetMap() {
+    /* clean all cells */
+    for(int col = 0; col < world_width; col++)
+        for(int row = 0; row < world_height; row++)
+            if(world[col]->at(row) != OBSTACLE)
+                world[col]->at(row) = 0;
+
+    /* reset agent's position */
+    agentPosX = initialAgentPosX;
+    agentPosY = initialAgentPosY;
+}
+
