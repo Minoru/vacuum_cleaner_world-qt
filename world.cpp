@@ -201,7 +201,7 @@ void World::performAction(Agent::actions action) {
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
             if(world[col]->at(row) != OBSTACLE &&
-                    static_cast<float>(rand()/RAND_MAX) < dirtyProbability) {
+                    static_cast<double>(rand())/RAND_MAX < dirtyProbability) {
                 world[col]->at(row)++;
                 dirtyDegree += world[col]->at(row);
             }
