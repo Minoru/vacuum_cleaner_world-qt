@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "world.h"
+#include <QGraphicsScene>
+
 
 namespace Ui {
     class MainWindow;
@@ -35,6 +37,9 @@ private:
     int testCase;
 
     World *w;
+    QGraphicsScene* scene;  //graphics scene
+
+    static const int RECTANGLE_SIZE = 40;
 };
 
 #endif // MAINWINDOW_H

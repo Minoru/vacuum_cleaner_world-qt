@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    scene = new QGraphicsScene();
+    ui->graphicsView->setScene(scene);
 }
 
 MainWindow::~MainWindow()
@@ -60,7 +63,7 @@ bool MainWindow::LoadMap()
     }
     else
     {
-        //FIXME: isCreated() is anal strut
+        //FIXME: isCreated() is an anal strut
         //FIXME: it will be better to create "QString errorMessage" in "World" class and if it isn't empty output here an error
 
         return false;
@@ -69,18 +72,25 @@ bool MainWindow::LoadMap()
 
 void MainWindow::DrawMap()
 {
-    QGraphicsScene* scene = new QGraphicsScene();
-    ui->graphicsView->setScene(scene);
-
-    const int rectSize = 40;                    //TODO: move it to class header
+    scene->clear();
 
     for (int i = 0; i < w->getWorldHeight(); i++)
     {
         for (int j = 0; j < w->getWorldWidth(); j++)
         {
-            QPen pen(QColor(130, 50, 10));              //TODO: change pen color depending on it's road or dirty road
-            QBrush brush(QColor(130, 50, 10));          //TODO: similar with brush color
-            scene->addRect(i * rectSize, j * rectSize, rectSize, rectSize, pen, brush);
+            QPen *pen = new QPen(QColor(130, 50, 10));
+            QBrush *brush = new QBrush(QColor(130, 50, 10));
+
+            if (w->getWorld().at(i)->at(j) != -1)
+            {
+                pen->setColor(QColor(255, 255, 255));       //TODO: change pen color depending on it's dirty degree
+                brush->setColor(QColor(255, 255, 255));     //TODO: similar with brush color
+            }
+
+            scene->addRect(i * RECTANGLE_SIZE, j * RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE, *pen, *brush);
+
+            delete pen;
+            delete brush;
         }
     }
 
