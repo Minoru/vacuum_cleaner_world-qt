@@ -40,19 +40,27 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
     lifeTime = lifetime;
     testCase = testcase;
 
-    /* FIXME: maybe toUtf8() is a better choise */
-    World w(filename.toLocal8Bit().constData(), this);
-
     DrawMap();
 }
 
 void MainWindow::DrawMap()
 {
-    //TODO: draw a map if it is correctly loaded
+    /* FIXME: maybe toUtf8() is a better choise */
+    World w(fileName.toLocal8Bit().constData(), this);
 
-    ui->doOneStepButton->setEnabled(true);
-    ui->doOneRunButton->setEnabled(true);
-    ui->doAllRunsButton->setEnabled(true);
-    ui->nextRunButton->setEnabled(true);
-    ui->displayButton->setEnabled(true);
+    if (w.isCreated())
+    {
+        ui->doOneStepButton->setEnabled(true);
+        ui->doOneRunButton->setEnabled(true);
+        ui->doAllRunsButton->setEnabled(true);
+        ui->nextRunButton->setEnabled(true);
+        ui->displayButton->setEnabled(true);
+
+        //TODO: draw a map
+    }
+    else
+    {
+        //FIXME: isCreated() is anal strut
+        //FIXME: it will be better to create "QString errorMessage" in "World" class and if it isn't empty output here an error
+    }
 }

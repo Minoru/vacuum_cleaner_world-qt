@@ -44,6 +44,7 @@ World::World(string filename, QWidget * parent) {
         QMessageBox::critical(parent, QTranslator::tr("Error parsing map"),
                 QTranslator::tr("Error: ") + error_msg);
         // FIXME: exit more gracefully
+        created = false;
         return;
     };
     unsigned int seed;
@@ -57,6 +58,7 @@ World::World(string filename, QWidget * parent) {
             QMessageBox::critical(parent, QTranslator::tr("Error parsing map"),
                 QTranslator::tr("Error: ") + f.what());
             // FIXME: exit more gracefully
+            created = false;
             return;
         }
     };
@@ -95,6 +97,7 @@ World::World(string filename, QWidget * parent) {
                         QTranslator::tr("Error: ") +
                         QTranslator::tr("unknown char in map at line ")
                         + QString::number(lineno) + ": " + c);
+                    created = false;
                     return;
             }
             if(lineno == 0) {
@@ -127,6 +130,8 @@ World::World(string filename, QWidget * parent) {
     world_height = lineno;
 
     mapFile.close();
+
+    created = true;
 }
 
 void World::performAction(Agent::actions action) {

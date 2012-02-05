@@ -33,6 +33,11 @@ public:
     /* returns true if agent just bumped into the wall */
     bool isJustBumped();
 
+    bool isCreated()
+    {
+        return created;
+    }
+
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
      * allows us to write quite intuitive code (e.g. world[x]->at(y)). Each
@@ -53,5 +58,7 @@ private:
 
     static const char MAP_OBSTACLE = 'O',
                       MAP_ROAD = '-';
+
+    bool created;       //is map correctly loaded
 };
 #endif
