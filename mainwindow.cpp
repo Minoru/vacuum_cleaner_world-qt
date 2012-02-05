@@ -82,8 +82,10 @@ void MainWindow::DrawMap()
 
             if (w->getWorld().at(i)->at(j) != -1)
             {
-                pen->setColor(QColor(255, 255, 255));       //TODO: change pen color depending on it's dirty degree
-                brush->setColor(QColor(255, 255, 255));     //TODO: similar with brush color
+                int color = 255 * (lifeTime - w->getWorld().at(i)->at(j)) / lifeTime;
+
+                pen->setColor(QColor(color, color, color));
+                brush->setColor(QColor(color, color, color));
             }
 
             scene->addRect(i * RECTANGLE_SIZE, j * RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE, *pen, *brush);
