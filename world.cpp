@@ -130,6 +130,8 @@ World::World(string filename) {
 
     mapFile.close();
 
+    lastAgentAction = Agent::idle;
+
     errorMessage = QString();
 }
 
@@ -222,5 +224,7 @@ void World::resetMap() {
     /* reset agent's position */
     agentPosX = initialAgentPosX;
     agentPosY = initialAgentPosY;
+
+    lastAgentAction = Agent::idle;
 }
 
