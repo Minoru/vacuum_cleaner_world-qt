@@ -1,6 +1,6 @@
 #include "world.h"
 
-World::World(string filename, QWidget * parent) {
+World::World(string filename) {
     /* we can be sure filename is valid - GUI checked it */
 
     /* world doesn't even exist yet, so agent couldn't possibly bump into
@@ -35,16 +35,11 @@ World::World(string filename, QWidget * parent) {
     try {
         parameters >> agentPosX >> agentPosY >> dirtyProbability; 
     } catch (ios_base::failure f) {
-        QString error_msg;
         if(parameters.eof())
-            error_msg = QTranslator::tr("end of line reached while reading initial parameters");
+            errorMessage = QTranslator::tr("End of line reached while reading initial parameters");
         else
-            error_msg = f.what();
+            errorMessage = f.what();
 
-        QMessageBox::critical(parent, QTranslator::tr("Error parsing map"),
-                QTranslator::tr("Error: ") + error_msg);
-        // FIXME: exit more gracefully
-        created = false;
         return;
     };
     unsigned int seed;
@@ -54,11 +49,8 @@ World::World(string filename, QWidget * parent) {
         /* It's okay to catch eof here - moreover, it is *expected*, because
          * seed is the last number on the parameters line */
         if(! parameters.eof()) {
-            QString error_msg;
-            QMessageBox::critical(parent, QTranslator::tr("Error parsing map"),
-                QTranslator::tr("Error: ") + f.what());
-            // FIXME: exit more gracefully
-            created = false;
+            errorMessage = QTranslator::tr(f.what());
+
             return;
         }
     };
@@ -67,9 +59,10 @@ World::World(string filename, QWidget * parent) {
     try {
         parameters >> seed;
     } catch (ios_base::failure f) {
-        if(! parameters.eof())
+        //TODO: decide keep this warning or not
+        /*if(! parameters.eof())
             QMessageBox::warning(parent, QTranslator::tr("Malformed map"),
-                QTranslator::tr("seed wasn't the last value on the parameters line"));
+                QTranslator::tr("seed wasn't the last value on the parameters line"));*/
     }
 
     /* Finally, it's time to read the map itself */
@@ -102,14 +95,8 @@ World::World(string filename, QWidget * parent) {
                     break;
 
                 default:
-                    QMessageBox::critical(parent, 
-                        QTranslator::tr("Error parsing map"),
-                        /* "Error: " is not concatanated with the error message
-                         * to make translations easier */
-                        QTranslator::tr("Error: ") +
-                        QTranslator::tr("unknown char in map at line ")
-                        + QString::number(lineno) + ": " + c);
-                    created = false;
+                    errorMessage = QTranslator::tr("Unknown char in map at line %1 : %2").arg(lineno).arg(c);
+
                     return;
             }
             if(lineno == 0) {
@@ -121,13 +108,9 @@ World::World(string filename, QWidget * parent) {
                 /* columnno can't be equal to world_width because columnno
                  * counts from zero */
                 if(columnno >= world_width) {
-                    QMessageBox::critical(parent,
-                        QTranslator::tr("Error parsing map"),
-                        // FIXME: rewrite that message with placeholders
-                        QTranslator::tr("Error: ") +
-                        QTranslator::tr("line ") + QString::number(lineno)
-                        + QTranslator::tr(" is wider than others (should be ")
-                        + QString::number(world_width) + ")");
+                    errorMessage = QTranslator::tr("Line %1 is wider than others (should be %2)").arg(lineno).arg(world_width);
+
+                    return;
                 } else {
                     world[columnno]->push_back(val);
                 }
@@ -143,7 +126,7 @@ World::World(string filename, QWidget * parent) {
 
     mapFile.close();
 
-    created = true;
+    errorMessage = QString();
 }
 
 void World::performAction(Agent::actions action) {

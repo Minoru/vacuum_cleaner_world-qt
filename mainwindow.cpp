@@ -49,9 +49,9 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
 bool MainWindow::LoadMap()
 {
     /* FIXME: maybe toUtf8() is a better choise */
-    w = new World(fileName.toLocal8Bit().constData(), this);
+    w = new World(fileName.toLocal8Bit().constData());
 
-    if (w->isCreated())
+    if (w->getErrorMessage().isEmpty())
     {
         ui->doOneStepButton->setEnabled(true);
         ui->doOneRunButton->setEnabled(true);
@@ -63,8 +63,7 @@ bool MainWindow::LoadMap()
     }
     else
     {
-        //FIXME: isCreated() is an anal strut
-        //FIXME: it will be better to create "QString errorMessage" in "World" class and if it isn't empty output here an error
+        QMessageBox::critical(this, tr("Error!"), w->getErrorMessage());
 
         return false;
     }
