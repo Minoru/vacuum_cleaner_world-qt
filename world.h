@@ -1,7 +1,6 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <QMessageBox>
 #include <QTranslator>
 #include <string>
 using std::string;
@@ -21,7 +20,7 @@ public:
     /* World should be created from the map file.
      * Pointer to parent widget is required so constructor can display some
      * warning and error dialogs */
-    World(string, QWidget *);
+    World(string);
     
     /* this function is called by agent at each step. It applies agent's action
      * to world and updates it (e.g. randomly adds dirt here and there) */
@@ -33,9 +32,9 @@ public:
     /* returns true if agent just bumped into the wall */
     bool isJustBumped();
 
-    bool isCreated()
+    QString getErrorMessage()
     {
-        return created;
+        return errorMessage;
     }
 
     vector< vector<int> * > getWorld()
@@ -74,6 +73,6 @@ private:
     static const char MAP_OBSTACLE = 'O',
                       MAP_ROAD = '-';
 
-    bool created;       //is map correctly loaded
+    QString errorMessage;
 };
 #endif
