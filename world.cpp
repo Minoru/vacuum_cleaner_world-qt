@@ -148,8 +148,55 @@ World::World(string filename, QWidget * parent) {
 
 void World::performAction(Agent::actions action) {
     switch(action) {
+        case Agent::moveLeft:
+            if(agentPosX == 0 || agentPosX == world_width-1
+                    || world[agentPosX-1]->at(agentPosY) == OBSTACLE) {
+                justBumped = true;
+            } else {
+                agentPosX--;
+            };
+            break;
+
+        case Agent::moveRight:
+            if(agentPosX == 0 || agentPosX == world_width-1
+                    || world[agentPosX+1]->at(agentPosY) == OBSTACLE) {
+                justBumped = true;
+            } else {
+                agentPosX++;
+            };
+            break;
+
+        case Agent::moveUp:
+            if(agentPosY == 0 || agentPosY == world_height-1
+                    || world[agentPosX]->at(agentPosY-1) == OBSTACLE) {
+                justBumped = true;
+            } else {
+                agentPosY--;
+            };
+            break;
+
+        case Agent::moveDown:
+            if(agentPosY == 0 || agentPosY == world_height-1
+                    || world[agentPosX]->at(agentPosY+1) == OBSTACLE) {
+                justBumped = true;
+            } else {
+                agentPosY++;
+            };
+            break;
+
+        case Agent::suck:
+            if(world[agentPosX]->at(agentPosY) > 0) {
+                world[agentPosX]->at(agentPosY)--;
+            };
+            break;
+
+        case Agent::doNothing:
+            /* that one is easy */
+            break;
+
         default:
-            /* do nothing */
+            /* we can't possibly reach that state because of static compiler
+             * checks, so it's safe to do nothing */
             break;
     }
 }

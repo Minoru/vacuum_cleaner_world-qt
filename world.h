@@ -55,7 +55,8 @@ public:
 
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
-     * allows us to write quite intuitive code (e.g. world[x]->at(y)). Each
+     * allows us to write quite intuitive code (e.g. world[x]->at(y)). Note,
+     * though, that beginning of coordinates is in the upper left corner. Each
      * cell (which is int by the way) represents an amount of dirt in a given
      * cell. Initially it is all zeros. Amount of dirt is incremented randomly
      * at each step */
