@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "world.h"
 
 namespace Ui {
     class MainWindow;
@@ -32,6 +33,8 @@ private:
     QString fileName;       //.map file
     int lifeTime;
     int testCase;
+
+    World *w;
 };
 
 #endif // MAINWINDOW_H

@@ -38,6 +38,21 @@ public:
         return created;
     }
 
+    vector< vector<int> * > getWorld()
+    {
+        return world;
+    }
+
+    int getWorldWidth()
+    {
+        return world_width;
+    }
+
+    int getWorldHeight()
+    {
+        return world_height;
+    }
+
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
      * allows us to write quite intuitive code (e.g. world[x]->at(y)). Each
