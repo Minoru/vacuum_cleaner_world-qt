@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "formnewmap.h"
+#include "world.h"
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -38,6 +39,9 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
     fileName = filename;
     lifeTime = lifetime;
     testCase = testcase;
+
+    /* FIXME: maybe toUtf8() is a better choise */
+    World w(filename.toLocal8Bit().constData(), this);
 
     DrawMap();
 }

@@ -18,7 +18,8 @@ FormNewMap::~FormNewMap()
 //invokes "select file" dialog
 void FormNewMap::on_selectMapFileButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select map file"), "map", tr("Map files (*.map)"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Select map file"), "map", tr("Map files (*.map)"));
     ui->mapFilenameEdit->setText(fileName);
 }
 
@@ -31,7 +32,8 @@ void FormNewMap::on_okButton_clicked()
 
     if (lifeTime > 0 && testCase > 0 && QFile::exists(fileName))
     {
-        emit this->SendData(fileName, lifeTime, testCase);          //send SIGNAL to main window
+        //send SIGNAL to main window
+        emit this->SendData(fileName, lifeTime, testCase);
         this->close();
     }
     else

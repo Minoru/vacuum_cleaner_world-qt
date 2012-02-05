@@ -1,0 +1,5 @@
+* First lines in a map can be comments. It should start with "//" (without
+quotes) and are ignored. You can place any number of empty lines (or none at
+all) after comments block. Comments in any other place of map file is not
+allowed.
+
