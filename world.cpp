@@ -62,10 +62,15 @@ World::World(string filename, QWidget * parent) {
             return;
         }
     };
-    if(! parameters.eof())
-        QMessageBox::warning(parent, QTranslator::tr("Malformed map"),
-            QTranslator::tr("seed wasn't the last value on the parameters line"));
     srand(seed);
+
+    try {
+        parameters >> seed;
+    } catch (ios_base::failure f) {
+        if(! parameters.eof())
+            QMessageBox::warning(parent, QTranslator::tr("Malformed map"),
+                QTranslator::tr("seed wasn't the last value on the parameters line"));
+    }
 
     /* Finally, it's time to read the map itself */
     /* Initializing lineno to -1 because we didn't read first line (which must
@@ -75,11 +80,18 @@ World::World(string filename, QWidget * parent) {
         lineno++;
         getline(mapFile, line);
         istringstream map(line);
+        /* Throw an exception when eof reached */
+        map.exceptions(ifstream::eofbit);
         int columnno = 0;
         while(! map.eof()) {
             char c;
             int val;
-            map >> c;
+            try {
+                map >> c;
+            } catch (ios_base::failure f) {
+                if(map.eof())
+                    break;
+            };
             switch(c) {
                 case MAP_OBSTACLE:
                     val = OBSTACLE;
