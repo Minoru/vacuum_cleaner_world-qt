@@ -1,11 +1,11 @@
 #include "agent.h"
 #include "world.h"
 
-void Agent::act(World *world) {
+Agent::actions Agent::act(bool isBumped, int dirtAmount) {
     /* Example agent moves randomly sucking as much dirt as possible */
-    if(world->isCurrentPosDirty()) {
-        world->performAction(suck);
+    if(dirtAmount > 0) {
+        return suck;
     } else {
-        world->performAction(static_cast<actions> (rand() % 4));
+        return (static_cast<actions> (rand() % 4));
     };
 }

@@ -208,20 +208,8 @@ void World::performAction(Agent::actions action) {
     currentTime++;
 }
 
-bool World::isCurrentPosDirty() {
-    return world[agentPosX]->at(agentPosY) > 0;
-}
-
-int World::dirtAmount() {
-    return world[agentPosX]->at(agentPosY);
-}
-
-bool World::isJustBumped() {
-    return justBumped;
-}
-
 void World::doOneStep() {
-    agent.act(this);
+    performAction(agent.act(justBumped, world[agentPosX]->at(agentPosY)));
 }
 
 void World::resetMap() {
