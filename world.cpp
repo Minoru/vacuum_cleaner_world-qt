@@ -199,6 +199,13 @@ void World::performAction(Agent::actions action) {
              * checks, so it's safe to do nothing */
             break;
     }
+    /* Run through the map and add some dirt randomly */
+    for(int col = 0; col < world_width; col++)
+        for(int row = 0; row < world_height; row++)
+            if(world[col]->at(row) != OBSTACLE &&
+                    static_cast<float>(rand()/RAND_MAX) < dirtyProbability) {
+                world[col]->at(row)++;
+            }
 }
 
 bool World::isCurrentPosDirty() {
