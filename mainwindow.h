@@ -26,6 +26,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
 
+    bool LoadMap();
     void DrawMap();
 
     QString fileName;       //.map file
