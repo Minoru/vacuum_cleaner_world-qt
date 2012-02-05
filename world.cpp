@@ -136,6 +136,8 @@ World::World(string filename) {
 }
 
 void World::performAction(Agent::actions action) {
+    justBumped = false;
+
     switch(action) {
         case Agent::moveLeft:
             if(agentPosX == 0 || agentPosX == world_width-1
