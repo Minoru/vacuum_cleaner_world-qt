@@ -54,10 +54,10 @@ bool MainWindow::LoadMap()
     if (w->getErrorMessage().isEmpty())
     {
         ui->doOneStepButton->setEnabled(true);
-        ui->doOneRunButton->setEnabled(true);
-        ui->doAllRunsButton->setEnabled(true);
-        ui->nextRunButton->setEnabled(true);
-        ui->displayButton->setEnabled(true);
+        //ui->doOneRunButton->setEnabled(true);
+        //ui->doAllRunsButton->setEnabled(true);
+        //ui->nextRunButton->setEnabled(true);
+        //ui->displayButton->setEnabled(true);
 
         return true;
     }
@@ -95,6 +95,29 @@ void MainWindow::DrawMap()
         }
     }
 
+    /*
+    switch (w->getLastAgentAction())
+    {
+        case Agent::idle:
+            scene->addRect(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10, w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
+                           RECTANGLE_SIZE * 4 / 5, RECTANGLE_SIZE * 4 / 5, QPen(QColor(0, 255, 0)), QBrush(QColor(0, 255, 0)));
+        break;
+    }
+    */
+
     //TODO: draw a vacuum cleaner (simple green triangle)
     //TODO: scale map if it's bigger than graphicsView's size
+}
+
+void MainWindow::on_doOneStepButton_clicked()
+{
+    w->doOneStep();
+
+    DrawMap();
+
+    if (w->getCurrentTime() >= lifeTime)
+    {
+        w->resetMap();
+        ui->doOneStepButton->setEnabled(false);
+    }
 }

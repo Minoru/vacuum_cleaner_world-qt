@@ -23,6 +23,8 @@ private slots:
 
     void on_selectMapButton_clicked();
 
+    void on_doOneStepButton_clicked();
+
 public slots:
     void onNewMapData(QString filename, int lifetime, int testcase);
 
