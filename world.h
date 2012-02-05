@@ -25,12 +25,6 @@ public:
     /* this function is called by agent at each step. It applies agent's action
      * to world and updates it (e.g. randomly adds dirt here and there) */
     void performAction(Agent::actions);
-    /* returns true if there's dirt at agent's current position */
-    bool isCurrentPosDirty();
-    /* returns amount of dirt at agent's current position */
-    int dirtAmount();
-    /* returns true if agent just bumped into the wall */
-    bool isJustBumped();
     
     void doOneStep();
 

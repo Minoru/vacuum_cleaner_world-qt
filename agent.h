@@ -18,6 +18,6 @@ public:
 
     /* this function is get called when it's time for agent to look at the
      * world and make some difference */
-    void act(World *world);
+    actions act(bool, int);
 };
 #endif
