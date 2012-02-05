@@ -60,6 +60,18 @@ public:
         return currentTime;
     }
 
+    Agent::actions getLastAgentAction() {
+        return lastAgentAction;
+    }
+
+    int getDirtyDegree() {
+        return dirtyDegree;
+    }
+
+    int getConsumedEnergy() {
+        return consumedEnergy;
+    }
+
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
      * allows us to write quite intuitive code (e.g. world[x]->at(y)). Note,
@@ -81,6 +93,10 @@ private:
     Agent agent;
 
     int currentTime;
+    int dirtyDegree;
+    int consumedEnergy;
+
+    Agent::actions lastAgentAction;
 
     /* how obstacles are indicated at map */
     static const int OBSTACLE = -1;

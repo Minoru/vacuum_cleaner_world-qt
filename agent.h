@@ -13,7 +13,7 @@ public:
         moveUp,
         moveDown,
         suck,
-        doNothing
+        idle
     };
 
     /* this function is get called when it's time for agent to look at the

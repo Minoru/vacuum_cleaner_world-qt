@@ -142,6 +142,7 @@ void World::performAction(Agent::actions action) {
             } else {
                 agentPosX--;
             };
+            consumedEnergy++;
             break;
 
         case Agent::moveRight:
@@ -151,6 +152,7 @@ void World::performAction(Agent::actions action) {
             } else {
                 agentPosX++;
             };
+            consumedEnergy++;
             break;
 
         case Agent::moveUp:
@@ -160,6 +162,7 @@ void World::performAction(Agent::actions action) {
             } else {
                 agentPosY--;
             };
+            consumedEnergy++;
             break;
 
         case Agent::moveDown:
@@ -169,15 +172,17 @@ void World::performAction(Agent::actions action) {
             } else {
                 agentPosY++;
             };
+            consumedEnergy++;
             break;
 
         case Agent::suck:
             if(world[agentPosX]->at(agentPosY) > 0) {
                 world[agentPosX]->at(agentPosY)--;
             };
+            consumedEnergy += 2;
             break;
 
-        case Agent::doNothing:
+        case Agent::idle:
             /* that one is easy */
             break;
 
@@ -186,12 +191,17 @@ void World::performAction(Agent::actions action) {
              * checks, so it's safe to do nothing */
             break;
     }
+
+    lastAgentAction = action;
+
     /* Run through the map and add some dirt randomly */
+    dirtyDegree = 0;
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
             if(world[col]->at(row) != OBSTACLE &&
                     static_cast<float>(rand()/RAND_MAX) < dirtyProbability) {
                 world[col]->at(row)++;
+                dirtyDegree += world[col]->at(row);
             }
 
     /* Yet another corn in the sandglass... */
