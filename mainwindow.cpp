@@ -82,7 +82,28 @@ void MainWindow::DrawMap()
 
             if (w->getWorld().at(i)->at(j) != -1)
             {
-                int dirtColor = 255 * (lifeTime - w->getWorld().at(i)->at(j)) / lifeTime;
+                /* We need to display amount of dirt in each cell somehow.
+                 * GLUT version of GUI greyed cells depending on dirtinnes, so
+                 * do we, although we would use quite more sophisticated
+                 * algorithm. It is based on a few facts:
+                 * *  one run consists of 'lifeTime' steps;
+                 * *  at each step, we can increase dirtiness of each cell by
+                 *    one;
+                 * *  probability of dirtiness to increase is
+                 *    'dirtyProbability'.
+                 * Now here's how we'll put those facts to work. We can be
+                 * absolutely sure that cell won't ever be dirtier than
+                 * 'lifeTime', because that's how much possibilies we've got to
+                 * increase cell's dirtiness. Statistically, dirtiness of any
+                 * cell can't be more that 'lifetime' * 'dirtyProbability'.
+                 * 
+                 * Given all that, the following algorithm follows naturally.
+                 */
+                int dirt = w->getWorld().at(i)->at(j);
+                float dirtProb = w->getDirtyProbability();
+                int dirtColor = 255;
+                if(dirt / dirtProb < lifeTime)
+                    dirtColor *= (lifeTime - dirt / dirtProb) / lifeTime;
 
                 pen->setColor(QColor(dirtColor, dirtColor, dirtColor));
                 brush->setColor(QColor(dirtColor, dirtColor, dirtColor));

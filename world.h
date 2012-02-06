@@ -81,6 +81,10 @@ public:
         return justBumped;
     }
 
+    float getDirtyProbability() {
+        return dirtyProbability;
+    }
+
 private:
     /* World is a set of columns (vector of pointers to vectors, in fact). That
      * allows us to write quite intuitive code (e.g. world[x]->at(y)). Note,
