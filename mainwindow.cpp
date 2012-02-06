@@ -123,64 +123,72 @@ void MainWindow::DrawMap()
         color.setRgb(255, 0, 0);
 
     //FIXME: this holy shit must be simpified
-    switch (w->getLastAgentAction())
+    Agent::actions action = w->getLastAgentAction();
+    QPen pen(color);
+    QBrush brush(color);
+    int posX = w->getAgentPosX() * RECTANGLE_SIZE,
+        posY = w->getAgentPosY() * RECTANGLE_SIZE;
+    switch (action)
     {
         case Agent::idle:
-            scene->addRect(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                           w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                           RECTANGLE_SIZE * 4 / 5, RECTANGLE_SIZE * 4 / 5,
-                           QPen(color), QBrush(color));
+            /* Don't need to do anything - all the colors are set up already */
         break;
+
         case Agent::suck:
-            scene->addRect(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                           w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                           RECTANGLE_SIZE * 4 / 5, RECTANGLE_SIZE * 4 / 5,
-                           QPen(QColor(255, 255, 0)), QBrush(QColor(255, 255, 0)));
+            /* box should be yellow */
+            pen.setColor(QColor(255, 255, 0));
+            brush.setColor(QColor(255, 255, 0));
         break;
+
         case Agent::moveUp:
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 2,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 2,
+                                      posY + RECTANGLE_SIZE / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 10,
+                                      posY + RECTANGLE_SIZE * 9 / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE * 9 / 10,
+                                      posY + RECTANGLE_SIZE * 9 / 10));
 
-            scene->addPolygon(QPolygon(triangle), QPen(color), QBrush(color));
         break;
+
         case Agent::moveDown:
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 2,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10));
-
-            scene->addPolygon(QPolygon(triangle), QPen(color), QBrush(color));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 2,
+                                      posY + RECTANGLE_SIZE * 9 / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 10,
+                                      posY + RECTANGLE_SIZE / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE * 9 / 10,
+                                      posY + RECTANGLE_SIZE / 10));
         break;
+
         case Agent::moveLeft:
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 2));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10));
-
-            scene->addPolygon(QPolygon(triangle), QPen(color), QBrush(color));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 10,
+                                      posY + RECTANGLE_SIZE / 2));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE * 9 / 10,
+                                      posY + RECTANGLE_SIZE / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE * 9 / 10,
+                                      posY + RECTANGLE_SIZE * 9 / 10));
         break;
+
         case Agent::moveRight:
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 2));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10));
-            triangle.push_back(QPoint(w->getAgentPosX() * RECTANGLE_SIZE + RECTANGLE_SIZE / 10,
-                                      w->getAgentPosY() * RECTANGLE_SIZE + RECTANGLE_SIZE * 9 / 10));
-
-            scene->addPolygon(QPolygon(triangle), QPen(color), QBrush(color));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE * 9 / 10,
+                                      posY + RECTANGLE_SIZE / 2));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 10,
+                                      posY + RECTANGLE_SIZE / 10));
+            triangle.push_back(QPoint(posX + RECTANGLE_SIZE / 10,
+                                      posY + RECTANGLE_SIZE * 9 / 10));
         break;
+
         default:
             //do nothing, cuz this situation cannot happen :)
         break;
     }
+
+    if(action == Agent::idle || action == Agent::suck)
+        scene->addRect(posX + RECTANGLE_SIZE / 10,
+                       posY + RECTANGLE_SIZE / 10,
+                       RECTANGLE_SIZE * 4 / 5, RECTANGLE_SIZE * 4 / 5,
+                       pen, brush);
+    else
+        scene->addPolygon(QPolygon(triangle), pen, brush);
 
     //TODO: scale map if it's bigger than graphicsView's size
 }
