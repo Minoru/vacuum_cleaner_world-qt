@@ -46,9 +46,9 @@ World::World(string filename) {
     };
     initialAgentPosX = agentPosX;
     initialAgentPosY = agentPosY;
-    unsigned int seed;
+    unsigned int mapSeed;
     try {
-        parameters >> seed;
+        parameters >> mapSeed;
     } catch (ios_base::failure f) {
         /* It's okay to catch eof here - moreover, it is *expected*, because
          * seed is the last number on the parameters line */
@@ -58,7 +58,15 @@ World::World(string filename) {
             return;
         }
     };
+    /* we use this.seed to keep world's random generator separate from
+     * everything else */
+    seed = mapSeed;
+
+    /* still, we need to initialize random generator for others
+     * Using double initialization to make world's and other's generators go
+     * different ways */
     srand(seed);
+    srand(rand());
 
     try {
         parameters >> seed;
@@ -203,7 +211,8 @@ void World::performAction(Agent::actions action) {
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
             if(world[col]->at(row) != OBSTACLE &&
-                    static_cast<double>(rand())/RAND_MAX < dirtyProbability) {
+                    static_cast<double>(rand_r(&seed))/RAND_MAX
+                    < dirtyProbability) {
                 world[col]->at(row)++;
                 dirtyDegree += world[col]->at(row);
             }

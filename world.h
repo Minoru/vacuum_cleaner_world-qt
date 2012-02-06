@@ -118,5 +118,9 @@ private:
                       MAP_ROAD = '-';
 
     QString errorMessage;
+
+    /* we use that value to keep world's random generator independent of
+     * everything else */
+    unsigned int seed;
 };
 #endif
