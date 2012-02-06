@@ -7,7 +7,8 @@ class Agent
 {
 public:
     /* actions an agent can perform */
-    enum actions {
+    enum actions
+    {
         moveLeft,
         moveRight,
         moveUp,

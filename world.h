@@ -50,19 +50,23 @@ public:
         return world_height;
     }
 
-    int getCurrentTime() {
+    int getCurrentTime()
+    {
         return currentTime;
     }
 
-    Agent::actions getLastAgentAction() {
+    Agent::actions getLastAgentAction()
+    {
         return lastAgentAction;
     }
 
-    int getDirtyDegree() {
+    int getDirtyDegree()
+    {
         return dirtyDegree;
     }
 
-    int getConsumedEnergy() {
+    int getConsumedEnergy()
+    {
         return consumedEnergy;
     }
 
@@ -81,7 +85,8 @@ public:
         return justBumped;
     }
 
-    float getDirtyProbability() {
+    float getDirtyProbability()
+    {
         return dirtyProbability;
     }
 

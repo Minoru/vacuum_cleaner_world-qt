@@ -109,7 +109,8 @@ void MainWindow::DrawMap()
                 brush->setColor(QColor(dirtColor, dirtColor, dirtColor));
             }
 
-            scene->addRect(i * RECTANGLE_SIZE, j * RECTANGLE_SIZE, RECTANGLE_SIZE, RECTANGLE_SIZE, *pen, *brush);
+            scene->addRect(i * RECTANGLE_SIZE, j * RECTANGLE_SIZE,
+                RECTANGLE_SIZE, RECTANGLE_SIZE, *pen, *brush);
 
             delete pen;
             delete brush;

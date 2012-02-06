@@ -25,7 +25,8 @@ private slots:
 private:
     Ui::FormNewMap *ui;
 signals:
-    void SendData(QString fileName, int lifeTime, int testCase);        //send data to main window
+    //send data to main window
+    void SendData(QString fileName, int lifeTime, int testCase);
 };
 
 #endif // FORMNEWMAP_H

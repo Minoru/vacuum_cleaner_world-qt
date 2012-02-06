@@ -1,6 +1,7 @@
 #include "world.h"
 
-World::World(string filename) {
+World::World(string filename)
+{
     /* we can be sure filename is valid - GUI checked it */
 
     /* world doesn't even exist yet, so agent couldn't possibly bump into
@@ -14,14 +15,16 @@ World::World(string filename) {
     ifstream mapFile(filename.c_str());
     getline(mapFile, line);
     while (line.substr(0,2).compare("//") == 0 || line.empty()
-            || line.find_first_not_of(' ') == string::npos) {
+            || line.find_first_not_of(' ') == string::npos)
+    {
         /* First lines in a file may be:
          * *  C++-style comments;
          * *  just empty lines (may contain spaces).
          * We'll just ignore this stuff. */
         getline(mapFile, line);
 
-        if(mapFile.eof()) {
+        if(mapFile.eof())
+        {
             // FIXME: display error message here
             break;
         }
@@ -34,9 +37,12 @@ World::World(string filename) {
      * (eofbit) end of file reached
      * (badbit) some other error occured */
     parameters.exceptions(ifstream::eofbit | ifstream::badbit);
-    try {
+    try
+    {
         parameters >> agentPosX >> agentPosY >> dirtyProbability; 
-    } catch (ios_base::failure f) {
+    }
+    catch (ios_base::failure f)
+    {
         if(parameters.eof())
             errorMessage = QTranslator::tr("End of line reached while reading initial parameters");
         else
@@ -47,12 +53,16 @@ World::World(string filename) {
     initialAgentPosX = agentPosX;
     initialAgentPosY = agentPosY;
     unsigned int mapSeed;
-    try {
+    try
+    {
         parameters >> mapSeed;
-    } catch (ios_base::failure f) {
+    }
+    catch (ios_base::failure f)
+    {
         /* It's okay to catch eof here - moreover, it is *expected*, because
          * seed is the last number on the parameters line */
-        if(! parameters.eof()) {
+        if(! parameters.eof())
+        {
             errorMessage = QTranslator::tr(f.what());
 
             return;
@@ -68,9 +78,12 @@ World::World(string filename) {
     srand(seed);
     srand(rand());
 
-    try {
+    try
+    {
         parameters >> seed;
-    } catch (ios_base::failure f) {
+    }
+    catch (ios_base::failure f)
+    {
         //TODO: decide keep this warning or not
         /*if(! parameters.eof())
             QMessageBox::warning(parent, QTranslator::tr("Malformed map"),
@@ -81,23 +94,29 @@ World::World(string filename) {
     /* Initializing lineno to -1 because we didn't read first line (which must
      * have index zero) yet */
     int lineno = -1;
-    while(! mapFile.eof()) {
+    while(! mapFile.eof())
+    {
         lineno++;
         getline(mapFile, line);
         istringstream map(line);
         /* Throw an exception when eof reached */
         map.exceptions(ifstream::eofbit);
         int columnno = 0;
-        while(! map.eof()) {
+        while(! map.eof())
+        {
             char c;
             int val;
-            try {
+            try
+            {
                 map >> c;
-            } catch (ios_base::failure f) {
+            }
+            catch (ios_base::failure f)
+            {
                 if(map.eof())
                     break;
             };
-            switch(c) {
+            switch(c)
+            {
                 case MAP_OBSTACLE:
                     val = OBSTACLE;
                     break;
@@ -111,25 +130,32 @@ World::World(string filename) {
 
                     return;
             }
-            if(lineno == 0) {
+            if(lineno == 0)
+            {
                 /* It's the first iteration, so we need to allocate space for
                  * columns */
                 world.push_back(new vector<int>);
                 world.back()->push_back(val);
-            } else {
+            }
+            else
+            {
                 /* columnno can't be equal to world_width because columnno
                  * counts from zero */
-                if(columnno >= world_width) {
+                if(columnno >= world_width)
+                {
                     errorMessage = QTranslator::tr("Line %1 is wider than others (should be %2)").arg(lineno).arg(world_width);
 
                     return;
-                } else {
+                }
+                else
+                {
                     world[columnno]->push_back(val);
                 }
             }
             columnno++;
         }
-        if(lineno == 0) {
+        if(lineno == 0)
+        {
             /* First iteration is over, now we know how wide map is */
             world_width = world.size();
         }
@@ -143,15 +169,20 @@ World::World(string filename) {
     errorMessage = QString();
 }
 
-void World::performAction(Agent::actions action) {
+void World::performAction(Agent::actions action)
+{
     justBumped = false;
 
-    switch(action) {
+    switch(action)
+    {
         case Agent::moveLeft:
             if(agentPosX == 0 || agentPosX == world_width-1
-                    || world[agentPosX-1]->at(agentPosY) == OBSTACLE) {
+                    || world[agentPosX-1]->at(agentPosY) == OBSTACLE)
+            {
                 justBumped = true;
-            } else {
+            }
+            else
+            {
                 agentPosX--;
             };
             consumedEnergy++;
@@ -159,9 +190,12 @@ void World::performAction(Agent::actions action) {
 
         case Agent::moveRight:
             if(agentPosX == 0 || agentPosX == world_width-1
-                    || world[agentPosX+1]->at(agentPosY) == OBSTACLE) {
+                    || world[agentPosX+1]->at(agentPosY) == OBSTACLE)
+            {
                 justBumped = true;
-            } else {
+            }
+            else
+            {
                 agentPosX++;
             };
             consumedEnergy++;
@@ -169,9 +203,12 @@ void World::performAction(Agent::actions action) {
 
         case Agent::moveUp:
             if(agentPosY == 0 || agentPosY == world_height-1
-                    || world[agentPosX]->at(agentPosY-1) == OBSTACLE) {
+                    || world[agentPosX]->at(agentPosY-1) == OBSTACLE)
+            {
                 justBumped = true;
-            } else {
+            }
+            else
+            {
                 agentPosY--;
             };
             consumedEnergy++;
@@ -179,16 +216,20 @@ void World::performAction(Agent::actions action) {
 
         case Agent::moveDown:
             if(agentPosY == 0 || agentPosY == world_height-1
-                    || world[agentPosX]->at(agentPosY+1) == OBSTACLE) {
+                    || world[agentPosX]->at(agentPosY+1) == OBSTACLE)
+            {
                 justBumped = true;
-            } else {
+            }
+            else
+            {
                 agentPosY++;
             };
             consumedEnergy++;
             break;
 
         case Agent::suck:
-            if(world[agentPosX]->at(agentPosY) > 0) {
+            if(world[agentPosX]->at(agentPosY) > 0)
+            {
                 world[agentPosX]->at(agentPosY)--;
             };
             consumedEnergy += 2;
@@ -212,7 +253,8 @@ void World::performAction(Agent::actions action) {
         for(int row = 0; row < world_height; row++)
             if(world[col]->at(row) != OBSTACLE &&
                     static_cast<double>(rand_r(&seed))/RAND_MAX
-                    < dirtyProbability) {
+                    < dirtyProbability)
+            {
                 world[col]->at(row)++;
                 dirtyDegree += world[col]->at(row);
             }
@@ -221,11 +263,13 @@ void World::performAction(Agent::actions action) {
     currentTime++;
 }
 
-void World::doOneStep() {
+void World::doOneStep()
+{
     performAction(agent.act(justBumped, world[agentPosX]->at(agentPosY)));
 }
 
-void World::resetMap() {
+void World::resetMap()
+{
     /* clean all cells */
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
