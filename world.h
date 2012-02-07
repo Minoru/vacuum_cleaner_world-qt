@@ -12,6 +12,7 @@ using std::ios_base;
 #include <vector>
 using std::vector;
 #include <cstdlib>
+#include <time.h>
 #include "agent.h"
 
 class World

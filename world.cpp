@@ -72,11 +72,8 @@ World::World(string filename)
      * everything else */
     seed = mapSeed;
 
-    /* still, we need to initialize random generator for others
-     * Using double initialization to make world's and other's generators go
-     * different ways */
-    srand(seed);
-    srand(rand());
+    /* still, we need to initialize random generator for others */
+    srand(time(NULL));
 
     try
     {
