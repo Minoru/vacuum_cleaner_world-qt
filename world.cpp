@@ -253,13 +253,16 @@ void World::performAction(Agent::actions action)
     dirtyDegree = 0;
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
-            if(world[col]->at(row) != OBSTACLE &&
-                    static_cast<double>(rand_r(&seed))/RAND_MAX
-                    < dirtyProbability)
+        {
+            if(world[col]->at(row) != OBSTACLE)
             {
-                world[col]->at(row)++;
+                if(static_cast<double>(rand_r(&seed))/RAND_MAX
+                        < dirtyProbability)
+                    world[col]->at(row)++;
+
                 dirtyDegree += world[col]->at(row);
             }
+        }
 
     /* Yet another corn in the sandglass... */
     currentTime++;
