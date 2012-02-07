@@ -53,11 +53,15 @@ bool MainWindow::LoadMap()
 
     if (w->getErrorMessage().isEmpty())
     {
+        currentRun = 1;
+        totalDirtyDegree = 0;
+        totalConsumedEnergy = 0;
+
         ui->doOneStepButton->setEnabled(true);
-        //ui->doOneRunButton->setEnabled(true);
-        //ui->doAllRunsButton->setEnabled(true);
-        //ui->nextRunButton->setEnabled(true);
-        //ui->displayButton->setEnabled(true);
+        ui->doOneRunButton->setEnabled(true);
+        ui->doAllRunsButton->setEnabled(true);
+
+        //TODO: display button
 
         return true;
     }
@@ -122,7 +126,6 @@ void MainWindow::DrawMap()
     if (w->isJustBumped())
         color.setRgb(255, 0, 0);
 
-    //FIXME: this holy shit must be simpified
     Agent::actions action = w->getLastAgentAction();
     QPen pen(color);
     QBrush brush(color);
@@ -191,17 +194,147 @@ void MainWindow::DrawMap()
         scene->addPolygon(QPolygon(triangle), pen, brush);
 
     //TODO: scale map if it's bigger than graphicsView's size
+
+    RefreshStats();
+}
+
+void MainWindow::RefreshStats()
+{
+    if (w != NULL && w->getErrorMessage().isEmpty())
+    {
+        QString stats = QString("<table width=\"100%\"><tr>") +
+                        tr("<td>Run %1, time step %2</td>") +
+                        tr("<td>Completed runs: %3</td></tr><tr>") +
+                        tr("<td>Current action: %4</td>") +
+                        tr("<td>Total dirty degree: %5</td></tr><tr>") +
+                        tr("<td>Dirty degree: %6</td>") +
+                        tr("<td>Total consumed energy: %7</td></tr><tr>") +
+                        tr("<td>Consumed energy: %8</td>") +
+                        tr("<td>Average dirty degree: %9</td></tr><tr>") +
+                        tr("<td></td><td>Average consumed energy: %10</td>") +
+                        QString("</tr></table>");
+
+        QString currentAction;
+        switch (w->getLastAgentAction())
+        {
+            case Agent::moveUp:
+                currentAction = "Up";
+            break;
+            case Agent::moveDown:
+                currentAction = "Down";
+            break;
+            case Agent::moveLeft:
+                currentAction = "Left";
+            break;
+            case Agent::moveRight:
+                currentAction = "Right";
+            break;
+            case Agent::suck:
+                currentAction = "Suck";
+            break;
+            default:
+                currentAction = "Idle";
+            break;
+        }
+
+        int completedRuns = (w->getCurrentTime() >= lifeTime)?(currentRun):(currentRun-1);
+
+        ui->statsLabel->setText(stats.
+                                arg(currentRun).
+                                arg(w->getCurrentTime()).
+                                arg(completedRuns).
+                                arg(currentAction).
+                                arg(totalDirtyDegree).
+                                arg(w->getDirtyDegree()).
+                                arg(totalConsumedEnergy).
+                                arg(w->getConsumedEnergy()).
+                                arg((currentRun == 1)?(0):(totalDirtyDegree / completedRuns)).
+                                arg((currentRun == 1)?(0):(totalConsumedEnergy / completedRuns))
+                                );
+    }
+    else
+    {
+        ui->statsLabel->setText("Map not loaded...");
+    }
 }
 
 void MainWindow::on_doOneStepButton_clicked()
 {
     w->doOneStep();
+    ManageSituation();
+}
 
-    DrawMap();
-
+void MainWindow::ManageSituation()
+{
     if (w->getCurrentTime() >= lifeTime)
     {
+        totalDirtyDegree += w->getDirtyDegree();
+        totalConsumedEnergy += w->getConsumedEnergy();
+
+        DrawMap();
+
         w->resetMap();
         ui->doOneStepButton->setEnabled(false);
+        ui->doOneRunButton->setEnabled(false);
+        ui->doAllRunsButton->setEnabled(false);
+
+        if (currentRun >= testCase)
+            ui->nextRunButton->setEnabled(false);
+        else
+            ui->nextRunButton->setEnabled(true);
+
+        //TODO: other buttons
     }
+    else
+        DrawMap();
+}
+
+void MainWindow::on_doOneRunButton_clicked()
+{
+    while (w->getCurrentTime() < lifeTime)
+    {
+        w->doOneStep();
+    }
+
+    ManageSituation();
+}
+
+void MainWindow::on_nextRunButton_clicked()
+{
+    currentRun++;
+    DrawMap();
+    ui->doOneStepButton->setEnabled(true);
+    ui->doOneRunButton->setEnabled(true);
+    ui->nextRunButton->setEnabled(false);
+    ui->doAllRunsButton->setEnabled(true);
+}
+
+void MainWindow::on_doAllRunsButton_clicked()
+{
+    do
+    {
+        while (w->getCurrentTime() < lifeTime)
+        {
+            w->doOneStep();
+        }
+
+        totalDirtyDegree += w->getDirtyDegree();
+        totalConsumedEnergy += w->getConsumedEnergy();
+
+        if (currentRun < testCase)
+        {
+            w->resetMap();
+        }
+        currentRun++;
+
+    } while (currentRun <= testCase);
+
+    currentRun--;
+
+    ui->doOneStepButton->setEnabled(false);
+    ui->doOneRunButton->setEnabled(false);
+    ui->nextRunButton->setEnabled(false);
+    ui->doAllRunsButton->setEnabled(false);
+
+    DrawMap();
 }

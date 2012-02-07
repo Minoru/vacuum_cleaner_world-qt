@@ -281,5 +281,10 @@ void World::resetMap()
     agentPosY = initialAgentPosY;
 
     lastAgentAction = Agent::idle;
+
+    currentTime = 0;
+    justBumped = 0;
+    dirtyDegree = 0;
+    consumedEnergy = 0;
 }
 
