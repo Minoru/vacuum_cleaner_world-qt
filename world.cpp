@@ -167,6 +167,8 @@ World::World(string filename)
     lastAgentAction = Agent::idle;
 
     errorMessage = QString();
+    consumedEnergy = 0;
+    dirtyDegree = 0;
 }
 
 void World::performAction(Agent::actions action)
