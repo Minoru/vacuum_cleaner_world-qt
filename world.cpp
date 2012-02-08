@@ -247,7 +247,6 @@ void World::performAction(Agent::actions action)
     lastAgentAction = action;
 
     /* Run through the map and add some dirt randomly */
-    dirtyDegree = 0;
     for(int col = 0; col < world_width; col++)
         for(int row = 0; row < world_height; row++)
         {
