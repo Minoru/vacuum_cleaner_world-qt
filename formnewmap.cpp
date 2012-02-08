@@ -2,12 +2,16 @@
 #include "ui_formnewmap.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDesktopWidget>
 
 FormNewMap::FormNewMap(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FormNewMap)
 {
     ui->setupUi(this);
+    //Put the dialog in the screen center
+    const QRect screen = QApplication::desktop()->screenGeometry();
+    this->move( screen.center() - this->rect().center() );
 }
 
 FormNewMap::~FormNewMap()
