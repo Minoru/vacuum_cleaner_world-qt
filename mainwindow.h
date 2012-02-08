@@ -31,6 +31,8 @@ private slots:
 
     void on_doAllRunsButton_clicked();
 
+    void on_displayButton_clicked();
+
 public slots:
     void onNewMapData(QString filename, int lifetime, int testcase);
 

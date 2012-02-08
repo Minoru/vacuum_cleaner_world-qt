@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "formnewmap.h"
 #include <QMessageBox>
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,8 +61,7 @@ bool MainWindow::LoadMap()
         ui->doOneStepButton->setEnabled(true);
         ui->doOneRunButton->setEnabled(true);
         ui->doAllRunsButton->setEnabled(true);
-
-        //TODO: display button
+        ui->displayButton->setEnabled(true);
 
         return true;
     }
@@ -277,13 +277,12 @@ void MainWindow::ManageSituation()
         ui->doOneStepButton->setEnabled(false);
         ui->doOneRunButton->setEnabled(false);
         ui->doAllRunsButton->setEnabled(false);
+        ui->displayButton->setEnabled(false);
 
         if (currentRun >= testCase)
             ui->nextRunButton->setEnabled(false);
         else
             ui->nextRunButton->setEnabled(true);
-
-        //TODO: other buttons
     }
     else
         DrawMap();
@@ -307,6 +306,7 @@ void MainWindow::on_nextRunButton_clicked()
     ui->doOneRunButton->setEnabled(true);
     ui->nextRunButton->setEnabled(false);
     ui->doAllRunsButton->setEnabled(true);
+    ui->displayButton->setEnabled(true);
 }
 
 void MainWindow::on_doAllRunsButton_clicked()
@@ -335,6 +335,54 @@ void MainWindow::on_doAllRunsButton_clicked()
     ui->doOneRunButton->setEnabled(false);
     ui->nextRunButton->setEnabled(false);
     ui->doAllRunsButton->setEnabled(false);
+    ui->displayButton->setEnabled(false);
 
     DrawMap();
+}
+
+void MainWindow::on_displayButton_clicked()
+{
+    int pause = ui->timeEdit->text().toInt();
+    int steps = ui->stepsEdit->text().toInt();
+
+    if (pause < 1 || pause > 10000)
+    {
+        QMessageBox::critical(this, tr("Error!"),
+            tr("Time for one step must be positive and less than 10 secs"));
+    }
+    else if (steps < 1 || steps > lifeTime - w->getCurrentTime())
+    {
+        QMessageBox::critical(this, tr("Error!"),
+            tr("Number of steps must be positive and less than remained life time"));
+    }
+    else
+    {
+        ui->doOneStepButton->setEnabled(false);
+        ui->doOneRunButton->setEnabled(false);
+        ui->doAllRunsButton->setEnabled(false);
+        ui->nextRunButton->setEnabled(false);
+        ui->selectMapButton->setEnabled(false);
+        ui->displayButton->setEnabled(false);
+
+        int i = 0;
+        while (w->getCurrentTime() < lifeTime && i < steps)
+        {
+            w->doOneStep();
+            DrawMap();
+
+            QTime dieTime = QTime::currentTime().addMSecs(pause);
+            while(QTime::currentTime() < dieTime)
+                QCoreApplication::processEvents();
+
+            i++;
+        }
+
+        ui->doOneStepButton->setEnabled(true);
+        ui->doOneRunButton->setEnabled(true);
+        ui->doAllRunsButton->setEnabled(true);
+        ui->selectMapButton->setEnabled(true);
+        ui->displayButton->setEnabled(true);
+
+        ManageSituation();
+    }
 }
