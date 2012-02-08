@@ -105,9 +105,11 @@ void MainWindow::DrawMap()
                  */
                 int dirt = w->getWorld().at(i)->at(j);
                 float dirtProb = w->getDirtyProbability();
-                int dirtColor = 255;
+                int dirtColor;
                 if(dirt / dirtProb < lifeTime)
-                    dirtColor *= (lifeTime - dirt / dirtProb) / lifeTime;
+                    dirtColor = 255 * (lifeTime - dirt / dirtProb) / lifeTime;
+                else
+                    dirtColor = 0;
 
                 pen->setColor(QColor(dirtColor, dirtColor, dirtColor));
                 brush->setColor(QColor(dirtColor, dirtColor, dirtColor));
