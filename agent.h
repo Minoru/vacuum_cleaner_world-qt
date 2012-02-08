@@ -9,10 +9,10 @@ public:
     /* actions an agent can perform */
     enum actions
     {
-        moveLeft,
-        moveRight,
         moveUp,
         moveDown,
+        moveLeft,
+        moveRight,
         suck,
         idle
     };
