@@ -137,7 +137,7 @@
       <widget class="QLineEdit" name="stepsEdit">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>60</x>
          <y>20</y>
          <width>51</width>
          <height>27</height>
@@ -163,7 +163,7 @@
       <widget class="QLineEdit" name="timeEdit">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>60</x>
          <y>50</y>
          <width>51</width>
          <height>27</height>
