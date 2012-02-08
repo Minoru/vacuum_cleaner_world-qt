@@ -250,8 +250,8 @@ void MainWindow::RefreshStats()
                                 arg(w->getDirtyDegree()).
                                 arg(totalConsumedEnergy).
                                 arg(w->getConsumedEnergy()).
-                                arg((currentRun == 1)?(0):(totalDirtyDegree / completedRuns)).
-                                arg((currentRun == 1)?(0):(totalConsumedEnergy / completedRuns))
+                                arg((completedRuns == 0)?(0):(totalDirtyDegree / completedRuns)).
+                                arg((completedRuns == 0)?(0):(totalConsumedEnergy / completedRuns))
                                 );
     }
     else
