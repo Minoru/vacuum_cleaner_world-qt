@@ -205,7 +205,7 @@ void MainWindow::RefreshStats()
         QString stats = QString("<table width=\"100%\"><tr>") +
                         tr("<td>Run %1, time step %2</td>") +
                         tr("<td>Completed runs: %3</td></tr><tr>") +
-                        tr("<td>Current action: %4</td>") +
+                        tr("<td>Action: %4</td>") +
                         tr("<td>Total dirty degree: %5</td></tr><tr>") +
                         tr("<td>Dirty degree: %6</td>") +
                         tr("<td>Total consumed energy: %7</td></tr><tr>") +
@@ -236,6 +236,8 @@ void MainWindow::RefreshStats()
                 currentAction = "Idle";
             break;
         }
+
+        currentAction.append((w->isJustBumped())?(QString(" Bump!")):(NULL));
 
         int completedRuns = (w->getCurrentTime() >= lifeTime)?(currentRun):(currentRun-1);
 
