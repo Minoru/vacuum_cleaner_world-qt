@@ -257,7 +257,8 @@ void World::performAction(Agent::actions action)
                         < dirtyProbability)
                     world[col]->at(row)++;
 
-                dirtyDegree += world[col]->at(row);
+                int dirt = world[col]->at(row);
+                dirtyDegree += dirt * dirt;
             }
         }
 

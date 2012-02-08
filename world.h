@@ -112,8 +112,8 @@ private:
     Agent agent;
 
     int currentTime;
-    int dirtyDegree;
-    int consumedEnergy;
+    unsigned long dirtyDegree;
+    unsigned long consumedEnergy;
 
     Agent::actions lastAgentAction;
 
