@@ -195,7 +195,7 @@ void MainWindow::DrawMap()
     else
         scene->addPolygon(QPolygon(triangle), pen, brush);
 
-    //TODO: scale map if it's bigger than graphicsView's size
+    /* FIXME: maybe scaling isn't good idea? */
 
     RefreshStats();
 }
@@ -380,12 +380,14 @@ void MainWindow::on_displayButton_clicked()
     }
 }
 
+// Draw single step (required for visualization)
 void MainWindow::onDrawOneStep()
 {
     w->doOneStep();
     DrawMap();
 }
 
+// Enable buttons after ending of visualization
 void MainWindow::onRestore()
 {
     ui->doOneStepButton->setEnabled(true);
