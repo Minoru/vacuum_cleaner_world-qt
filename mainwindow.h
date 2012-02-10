@@ -35,6 +35,8 @@ private slots:
 
 public slots:
     void onNewMapData(QString filename, int lifetime, int testcase);
+    void onDrawOneStep();
+    void onRestore();
 
 private:
     Ui::MainWindow *ui;

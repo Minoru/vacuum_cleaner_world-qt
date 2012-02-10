@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "formnewmap.h"
 #include <QMessageBox>
-#include <QTime>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -248,12 +248,12 @@ void MainWindow::RefreshStats()
                                 arg(w->getCurrentTime()).
                                 arg(completedRuns).
                                 arg(currentAction).
-                                arg(totalDirtyDegree).
+                                arg(totalDirtyDegree, 10, 'f', 0).
                                 arg(w->getDirtyDegree()).
-                                arg(totalConsumedEnergy).
+                                arg(totalConsumedEnergy, 10, 'f', 0).
                                 arg(w->getConsumedEnergy()).
-                                arg((completedRuns == 0)?(0):(totalDirtyDegree / completedRuns)).
-                                arg((completedRuns == 0)?(0):(totalConsumedEnergy / completedRuns))
+                                arg((completedRuns == 0)?(0):(totalDirtyDegree / completedRuns), 7, 'f', 3).
+                                arg((completedRuns == 0)?(0):(totalConsumedEnergy / completedRuns), 7, 'f', 3)
                                 );
     }
     else
@@ -349,10 +349,10 @@ void MainWindow::on_displayButton_clicked()
     int pause = ui->timeEdit->text().toInt();
     int steps = ui->stepsEdit->text().toInt();
 
-    if (pause < 1 || pause > 10000)
+    if (pause < 20 || pause > 10000)
     {
         QMessageBox::critical(this, tr("Error!"),
-            tr("Time for one step must be positive and less than 10 secs"));
+            tr("Time for one step must be over 0.02 and less than 10 secs"));
     }
     else if (steps < 1 || steps > lifeTime - w->getCurrentTime())
     {
@@ -371,22 +371,28 @@ void MainWindow::on_displayButton_clicked()
         int i = 0;
         while (w->getCurrentTime() < lifeTime && i < steps)
         {
-            w->doOneStep();
-            DrawMap();
-
-            QTime dieTime = QTime::currentTime().addMSecs(pause);
-            while(QTime::currentTime() < dieTime)
-                QCoreApplication::processEvents();
+            QTimer::singleShot((i+1) * pause, this, SLOT(onDrawOneStep()));
 
             i++;
         }
 
-        ui->doOneStepButton->setEnabled(true);
-        ui->doOneRunButton->setEnabled(true);
-        ui->doAllRunsButton->setEnabled(true);
-        ui->selectMapButton->setEnabled(true);
-        ui->displayButton->setEnabled(true);
-
-        ManageSituation();
+        QTimer::singleShot((i+1) * pause, this, SLOT(onRestore()));
     }
+}
+
+void MainWindow::onDrawOneStep()
+{
+    w->doOneStep();
+    DrawMap();
+}
+
+void MainWindow::onRestore()
+{
+    ui->doOneStepButton->setEnabled(true);
+    ui->doOneRunButton->setEnabled(true);
+    ui->doAllRunsButton->setEnabled(true);
+    ui->selectMapButton->setEnabled(true);
+    ui->displayButton->setEnabled(true);
+
+    ManageSituation();
 }
