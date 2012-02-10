@@ -3,12 +3,16 @@
 #include "formnewmap.h"
 #include <QMessageBox>
 #include <QTimer>
+#include <algorithm>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     scene = new QGraphicsScene();
     ui->graphicsView->setScene(scene);
@@ -195,7 +199,7 @@ void MainWindow::DrawMap()
     else
         scene->addPolygon(QPolygon(triangle), pen, brush);
 
-    //TODO: scale map if it's bigger than graphicsView's size
+    /* FIXME: maybe scaling isn't good idea? */
 
     RefreshStats();
 }
@@ -380,12 +384,14 @@ void MainWindow::on_displayButton_clicked()
     }
 }
 
+// Draw single step (required for visualization)
 void MainWindow::onDrawOneStep()
 {
     w->doOneStep();
     DrawMap();
 }
 
+// Enable buttons after ending of visualization
 void MainWindow::onRestore()
 {
     ui->doOneStepButton->setEnabled(true);
