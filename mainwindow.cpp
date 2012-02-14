@@ -128,6 +128,11 @@ void MainWindow::DrawMap()
         }
     }
 
+    /* clear() doesn't make scene shrink
+     * That led to the problems in case when small map was loaded after large
+     * one: scene didn't shrink, thus scaling didn't work properly */
+    scene->setSceneRect(scene->itemsBoundingRect());
+
     QVector<QPoint> triangle;
     QColor color(0, 255, 0);
     if (w->isJustBumped())
