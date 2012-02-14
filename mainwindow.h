@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QResizeEvent>
 #include <QMainWindow>
 #include "world.h"
 #include <QGraphicsScene>
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void resizeEvent(QResizeEvent *);
 
 private slots:
     void on_quitButton_clicked();

@@ -44,7 +44,12 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
     testCase = testcase;
 
     if (LoadMap())
+    {
         DrawMap();
+
+        QRectF sceneRect = ui->graphicsView->sceneRect();
+        ui->graphicsView->fitInView(sceneRect, Qt::KeepAspectRatio);
+    }
 }
 
 bool MainWindow::LoadMap()
@@ -194,8 +199,6 @@ void MainWindow::DrawMap()
                        pen, brush);
     else
         scene->addPolygon(QPolygon(triangle), pen, brush);
-
-    /* FIXME: maybe scaling isn't good idea? */
 
     RefreshStats();
 }
@@ -406,3 +409,10 @@ void MainWindow::onRestore()
 
     ManageSituation();
 }
+
+void MainWindow::resizeEvent(QResizeEvent * event)
+{
+    QRectF sceneRect = ui->graphicsView->sceneRect();
+    ui->graphicsView->fitInView(sceneRect, Qt::KeepAspectRatio);
+}
+
