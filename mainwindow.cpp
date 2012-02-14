@@ -241,8 +241,16 @@ void MainWindow::RefreshStats()
 
         currentAction.append((w->isJustBumped())?(QString(" Bump!")):(NULL));
 
-        int completedRuns = (w->getCurrentTime() >= lifeTime)?(currentRun):(currentRun-1);
+        int completedRuns = currentRun;
+        if(w->getCurrentTime() >= lifeTime) {
+            completedRuns--;
+        }
 
+        double avgDirtyDegree = 0.0, avgConsumedEnergy = 0.0;
+        if(completedRuns != 0) {
+            avgDirtyDegree = totalDirtyDegree / completedRuns;
+            avgConsumedEnergy = totalConsumedEnergy / completedRuns;
+        }
         ui->statsLabel->setText(stats.
                                 arg(currentRun).
                                 arg(w->getCurrentTime()).
@@ -252,8 +260,8 @@ void MainWindow::RefreshStats()
                                 arg(w->getDirtyDegree()).
                                 arg(totalConsumedEnergy, 10, 'f', 0).
                                 arg(w->getConsumedEnergy()).
-                                arg((completedRuns == 0)?(0):(totalDirtyDegree / completedRuns), 7, 'f', 3).
-                                arg((completedRuns == 0)?(0):(totalConsumedEnergy / completedRuns), 7, 'f', 3)
+                                arg(avgDirtyDegree, 7, 'f', 3).
+                                arg(avgConsumedEnergy, 7, 'f', 3)
                                 );
     }
     else
@@ -357,7 +365,7 @@ void MainWindow::on_displayButton_clicked()
     else if (steps < 1 || steps > lifeTime - w->getCurrentTime())
     {
         QMessageBox::critical(this, tr("Error!"),
-            tr("Number of steps must be positive and less than remained life time"));
+            tr("Number of steps must be positive and less than remaining life time"));
     }
     else
     {
