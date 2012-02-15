@@ -109,7 +109,7 @@ private:
     /* probability of cell's dirty level increasing by one */
     float dirtyProbability;
     /* agent is an entity that would perform some actions on our world */
-    Agent agent;
+    Agent* agent;
 
     int currentTime;
     unsigned long dirtyDegree;

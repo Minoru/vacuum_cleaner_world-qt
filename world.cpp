@@ -166,6 +166,8 @@ World::World(string filename)
     errorMessage = QString();
     consumedEnergy = 0;
     dirtyDegree = 0;
+
+    agent = new Agent();
 }
 
 void World::performAction(Agent::actions action)
@@ -267,7 +269,7 @@ void World::performAction(Agent::actions action)
 
 void World::doOneStep()
 {
-    performAction(agent.act(justBumped, world[agentPosX]->at(agentPosY)));
+    performAction(agent->act(justBumped, world[agentPosX]->at(agentPosY)));
 }
 
 void World::resetMap()
@@ -288,5 +290,8 @@ void World::resetMap()
     justBumped = 0;
     dirtyDegree = 0;
     consumedEnergy = 0;
+
+    delete agent;
+    agent = new Agent();
 }
 
