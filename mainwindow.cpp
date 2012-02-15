@@ -250,7 +250,7 @@ void MainWindow::RefreshStats()
         currentAction.append((w->isJustBumped())?(QString(" Bump!")):(NULL));
 
         int completedRuns = currentRun;
-        if(w->getCurrentTime() >= lifeTime) {
+        if(w->getCurrentTime() < lifeTime) {
             completedRuns--;
         }
 
