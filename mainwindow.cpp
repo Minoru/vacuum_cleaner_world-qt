@@ -104,17 +104,36 @@ void MainWindow::DrawMap()
                  * absolutely sure that cell won't ever be dirtier than
                  * 'lifeTime', because that's how much possibilies we've got to
                  * increase cell's dirtiness. Statistically, dirtiness of any
-                 * cell can't be more that 'lifetime' * 'dirtyProbability'.
+                 * cell can't be more than 'lifetime' * 'dirtyProbability'.
                  * 
                  * Given all that, the following algorithm follows naturally.
+                 *
+                 * Note, though, that sophisticated algorithm makes sense only
+                 * for big (more than 255) lifetimes - on short ones it strives
+                 * to make cells bi-colour (or thi-colour if you're lucky :).
+                 * Because of that, we provide a fallback.
                  */
                 int dirt = w->getWorld().at(i)->at(j);
                 float dirtProb = w->getDirtyProbability();
-                int dirtColor;
-                if(dirt / dirtProb < lifeTime)
-                    dirtColor = 255 * (lifeTime - dirt / dirtProb) / lifeTime;
+                int dirtColor = 255;
+                if(lifeTime > 255)
+                    if(dirt / dirtProb < lifeTime)
+                    {
+                        double dirtiness = lifeTime - dirt / dirtProb;
+                        dirtColor *= dirtiness / lifeTime;
+                    }
+                    else
+                        dirtColor = 0;
                 else
-                    dirtColor = 0;
+                    /* fall back to naive algorithm */
+                    if(dirt < lifeTime)
+                    {
+                        /* constant was taken from the air */
+                        double dirtiness = lifeTime - dirt * 8;
+                        dirtColor *= dirtiness / lifeTime;
+                    }
+                    else
+                        dirtColor = 0;
 
                 pen->setColor(QColor(dirtColor, dirtColor, dirtColor));
                 brush->setColor(QColor(dirtColor, dirtColor, dirtColor));
