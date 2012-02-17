@@ -269,7 +269,7 @@ void World::performAction(Agent::actions action)
 
 void World::doOneStep()
 {
-    performAction(agent->act(justBumped, world[agentPosX]->at(agentPosY)));
+    performAction(agent->act(justBumped, world[agentPosX]->at(agentPosY), lastAgentAction));
 }
 
 void World::resetMap()

@@ -49,6 +49,8 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
 
         QRectF sceneRect = ui->graphicsView->sceneRect();
         ui->graphicsView->fitInView(sceneRect, Qt::KeepAspectRatio);
+
+        ManageSituation();
     }
 }
 
@@ -324,7 +326,10 @@ void MainWindow::ManageSituation()
             ui->nextRunButton->setEnabled(true);
     }
     else
+    {
         DrawMap();
+        ui->nextRunButton->setEnabled(false);
+    }
 }
 
 void MainWindow::on_doOneRunButton_clicked()
