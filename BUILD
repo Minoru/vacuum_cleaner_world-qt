@@ -1,13 +1,60 @@
-If you have QtCreator, just open the project and start coding.
+How to build the project
+========================
 
-If you want to use some other tool, you need to create Makefile:
+Linux
+-----
 
-  $ qmake-qt4 -o Makefile Agent.pro
+1. Install libraries. In Debian Wheezy it would be sufficient to run the
+   following command:
 
-and then use make to build the executable binary:
+     $ sudo aptitude install qt4-qmake libqt4-dev
 
-  $ make -j4 all
+2. If you want some IDE, install QtCreator:
 
-(here I tell make to use 4 threads - you can specify your number or ommit that
-option)
+     $ sudo aptitude install qtcreator
+
+   After that you can just open Agent.pro and start hacking.
+
+3. If you want to use your favourite text editor or IDE, you'll need to
+   generate Makefile. Just run the following command:
+
+     $ qmake-qt4 -o Makefile Agent.pro
+
+   and then use make to build the executable binary:
+
+     $ make
+
+   You can clean working directory using
+    
+     $ make clean
+
+   If your machine happen to have more than 1 core, you can use -j option to
+   speed up compilation.
+
+Windows
+-------
+
+1. Install libraries. There are two options:
+
+   a) install libraries only. In that case you'll have to use some IDE
+      (probably Microsoft Visual Studio) for development. Libraries pack is
+      about 275MB in size.
+
+   b) install Qt SDK. It would provide not only libraries but also QtCreator, a
+      nice IDE. Note, though, that SDK is about 1.3GB in size.
+
+   Both libraries and SDK can be downloaded from http://qt.nokia.com/downloads
+
+2. If you installed SDK, just fire up QtCreator, open the project (Agent.pro)
+   and start hacking.
+
+3. If you decided to stick to MSVS, you'll need to generate project file. To do
+   that, go to Start - All Programs - Qt by Nokia v4.8.0 (VS2010 OpenSource) -
+   Qt 4.8.0 Command Prompt (versions may differ), wait till initialization is
+   finished (">" sign should appear), go to the directory with project (e.g. cd
+   C:\Agent) and run the following command:
+
+     > qmake -tp vc
+
+4. Open generated project in Visual Studio and create some nice bots.
 
