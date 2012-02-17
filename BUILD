@@ -4,6 +4,17 @@ How to build the project
 Linux
 -----
 
+First way. Install whole Qt SDK:
+
+1. Type in terminal:
+
+	$ sudo apt-get install qt-sdk
+
+2. Run QtCreator and start coding.
+
+
+Second way. Install separate components:
+
 1. Install libraries. In Debian Wheezy it would be sufficient to run the
    following command:
 
