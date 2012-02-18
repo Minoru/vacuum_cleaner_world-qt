@@ -166,6 +166,7 @@ World::World(string filename)
     errorMessage = QString();
     consumedEnergy = 0;
     dirtyDegree = 0;
+    currentTime = 0;
 
     agent = new Agent();
 }
@@ -254,6 +255,8 @@ void World::performAction(Agent::actions action)
         {
             if(world[col]->at(row) != OBSTACLE)
             {
+                //TODO: replace rand_r() with platform-independent function
+
                 if(static_cast<double>(rand_r(&seed))/RAND_MAX
                         < dirtyProbability)
                     world[col]->at(row)++;

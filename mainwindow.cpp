@@ -305,6 +305,7 @@ void MainWindow::on_doOneStepButton_clicked()
     ManageSituation();
 }
 
+// Enabled/disable some buttons when run ends
 void MainWindow::ManageSituation()
 {
     if (w->getCurrentTime() >= lifeTime)
@@ -389,10 +390,11 @@ void MainWindow::on_displayButton_clicked()
     int pause = ui->timeEdit->text().toInt();
     int steps = ui->stepsEdit->text().toInt();
 
-    if (pause < 20 || pause > 10000)
+    // pause mustn't be too small
+    if (pause < 50 || pause > 10000)
     {
         QMessageBox::critical(this, tr("Error!"),
-            tr("Time for one step must be over 0.02 and less than 10 secs"));
+            tr("Time for one step must be over 0.05 and less than 10 secs"));
     }
     else if (steps < 1 || steps > lifeTime - w->getCurrentTime())
     {
