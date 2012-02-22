@@ -49,3 +49,18 @@ void FormNewMap::on_cancelButton_clicked()
 {
     this->close();
 }
+
+void FormNewMap::on_lifetimeEdit_returnPressed()
+{
+    on_okButton_clicked();
+}
+
+void FormNewMap::on_mapFilenameEdit_returnPressed()
+{
+    on_selectMapFileButton_clicked();
+}
+
+void FormNewMap::on_testCaseEdit_returnPressed()
+{
+    on_okButton_clicked();
+}

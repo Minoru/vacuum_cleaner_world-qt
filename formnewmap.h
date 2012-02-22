@@ -22,6 +22,12 @@ private slots:
 
     void on_cancelButton_clicked();
 
+    void on_lifetimeEdit_returnPressed();
+
+    void on_mapFilenameEdit_returnPressed();
+
+    void on_testCaseEdit_returnPressed();
+
 private:
     Ui::FormNewMap *ui;
 signals:

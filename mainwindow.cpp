@@ -50,6 +50,8 @@ void MainWindow::onNewMapData(QString filename, int lifetime, int testcase)
         QRectF sceneRect = ui->graphicsView->sceneRect();
         ui->graphicsView->fitInView(sceneRect, Qt::KeepAspectRatio);
 
+        ui->stepsEdit->setText(QString("%1").arg(lifeTime));
+
         ManageSituation();
     }
 }
@@ -394,7 +396,7 @@ void MainWindow::on_displayButton_clicked()
     if (pause < 50 || pause > 10000)
     {
         QMessageBox::critical(this, tr("Error!"),
-            tr("Time for one step must be over 0.05 and less than 10 secs"));
+            tr("Time for one step must be over 50 and less than 10,000 msecs"));
     }
     else if (steps < 1 || steps > lifeTime - w->getCurrentTime())
     {

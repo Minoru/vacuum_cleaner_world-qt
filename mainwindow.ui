@@ -26,12 +26,22 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0" rowspan="10">
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+     </widget>
     </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="selectMapButton">
       <property name="text">
        <string>Select map</string>
+      </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
+      <property name="default">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -43,6 +53,9 @@
       <property name="text">
        <string>Do one step</string>
       </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="2" column="1">
@@ -52,6 +65,9 @@
       </property>
       <property name="text">
        <string>Do one run</string>
+      </property>
+      <property name="autoDefault">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -63,6 +79,9 @@
       <property name="text">
        <string>Next run</string>
       </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="4" column="1">
@@ -73,12 +92,18 @@
       <property name="text">
        <string>Do all runs</string>
       </property>
+      <property name="autoDefault">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="9" column="1">
      <widget class="QPushButton" name="quitButton">
       <property name="text">
        <string>Quit</string>
+      </property>
+      <property name="autoDefault">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -201,6 +226,9 @@
        <property name="text">
         <string>Display</string>
        </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
       </widget>
      </widget>
     </item>
@@ -208,6 +236,18 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>selectMapButton</tabstop>
+  <tabstop>doOneStepButton</tabstop>
+  <tabstop>doOneRunButton</tabstop>
+  <tabstop>nextRunButton</tabstop>
+  <tabstop>doAllRunsButton</tabstop>
+  <tabstop>stepsEdit</tabstop>
+  <tabstop>timeEdit</tabstop>
+  <tabstop>displayButton</tabstop>
+  <tabstop>quitButton</tabstop>
+  <tabstop>graphicsView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
