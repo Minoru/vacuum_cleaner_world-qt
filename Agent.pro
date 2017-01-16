@@ -2,7 +2,8 @@
 # Project created by QtCreator 2012-02-02T21:37:57
 # -------------------------------------------------
 QT += core \
-    gui
+    gui \
+    widgets
 TARGET = Agent
 TEMPLATE = app
 SOURCES += main.cpp \

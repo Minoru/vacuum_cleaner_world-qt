@@ -15,10 +15,7 @@ First way. Install whole Qt SDK:
 
 Second way. Install separate components:
 
-1. Install libraries. In Debian Wheezy it would be sufficient to run the
-   following command:
-
-     $ sudo aptitude install qt4-qmake libqt4-dev
+1. Install Qt5. Make sure you have qmake (it might be in a separate package).
 
 2. If you want some IDE, install QtCreator:
 
@@ -29,7 +26,7 @@ Second way. Install separate components:
 3. If you want to use your favourite text editor or IDE, you'll need to
    generate Makefile. Just run the following command:
 
-     $ qmake-qt4 -o Makefile Agent.pro
+     $ qmake -o Makefile Agent.pro
 
    and then use make to build the executable binary:
 
