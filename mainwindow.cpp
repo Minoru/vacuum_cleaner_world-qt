@@ -415,12 +415,12 @@ void MainWindow::on_displayButton_clicked()
         int i = 0;
         while (w->getCurrentTime() < lifeTime && i < steps)
         {
-            QTimer::singleShot((i+1) * pause, this, SLOT(onDrawOneStep()));
+            QTimer::singleShot((i+1) * pause, Qt::PreciseTimer, this, SLOT(onDrawOneStep()));
 
             i++;
         }
 
-        QTimer::singleShot((i+1) * pause, this, SLOT(onRestore()));
+        QTimer::singleShot((i+1) * pause, Qt::PreciseTimer, this, SLOT(onRestore()));
     }
 }
 
