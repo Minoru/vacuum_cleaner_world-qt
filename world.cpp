@@ -108,7 +108,13 @@ World::World(string filename)
     {
         parameters >> agentPosX >> agentPosY >> dirtyProbability; 
     }
-    catch (ios_base::failure f)
+    /* We're really only interested in catching ios_base::failure here, but GCC
+     * 5 has a bug so we're working around it. See
+     * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66145 for details.
+     *
+     * The same applies to all catch blocks in this constructor.
+     */
+    catch (std::exception f)
     {
         if(parameters.eof())
             errorMessage = QTranslator::tr("End of line reached while reading initial parameters");
@@ -124,7 +130,7 @@ World::World(string filename)
     {
         parameters >> mapSeed;
     }
-    catch (ios_base::failure f)
+    catch (std::exception f)
     {
         /* It's okay to catch eof here - moreover, it is *expected*, because
          * seed is the last number on the parameters line */
@@ -146,7 +152,7 @@ World::World(string filename)
     {
         parameters >> seed;
     }
-    catch (ios_base::failure f)
+    catch (std::exception f)
     {
         //TODO: decide keep this warning or not
         /*if(! parameters.eof())
@@ -174,7 +180,7 @@ World::World(string filename)
             {
                 map >> c;
             }
-            catch (ios_base::failure f)
+            catch (std::exception f)
             {
                 if(map.eof())
                     break;
